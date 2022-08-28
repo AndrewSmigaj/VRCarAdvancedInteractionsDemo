@@ -2291,6 +2291,19 @@ MonoBehaviour:
   m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
+--- !u!114 &855817753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 855817747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8bfa70f82d71624ba9d961b2e825fe0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hideHandOnGrab: 1
 --- !u!1 &907276739
 GameObject:
   m_ObjectHideFlags: 0
@@ -2958,6 +2971,8 @@ MonoBehaviour:
     m_Flags: 0
   meshRenderers: []
   handType: 0
+  colliders: []
+  interactor: {fileID: 0}
 --- !u!1 &1372849345
 GameObject:
   m_ObjectHideFlags: 0
@@ -3481,6 +3496,8 @@ MonoBehaviour:
     m_Flags: 0
   meshRenderers: []
   handType: 1
+  colliders: []
+  interactor: {fileID: 0}
 --- !u!1 &1735700548
 GameObject:
   m_ObjectHideFlags: 0
@@ -3540,7 +3557,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2541134916560741203, guid: e752646dc038be24eb6d6641f2ebfaa6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.3719343
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 2541134916560741203, guid: e752646dc038be24eb6d6641f2ebfaa6, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3548,7 +3565,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2541134916560741203, guid: e752646dc038be24eb6d6641f2ebfaa6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.2446637
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2541134916560741203, guid: e752646dc038be24eb6d6641f2ebfaa6, type: 3}
       propertyPath: m_LocalRotation.w
