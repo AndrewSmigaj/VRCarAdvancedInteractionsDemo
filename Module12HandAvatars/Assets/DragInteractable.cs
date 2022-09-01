@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 
+[System.Serializable]
 public class GrabEvent : UnityEvent<float> { }
 
 public class DragInteractable : XRBaseInteractable
@@ -13,17 +14,18 @@ public class DragInteractable : XRBaseInteractable
     public Transform startPosition;
     public Transform endPosition;
 
-    public MeshRenderer renderer;
+    public MeshRenderer meshRenderer;
 
-    public float dragAmount;
+    protected float dragAmount = 0;
 
     public UnityEvent onGrabStart = new UnityEvent();
     public UnityEvent onGrabEnd = new UnityEvent();
 
-    public GrabEvent grabChanged = new GrabEvent();
+    public GrabEvent onDragUpdate = new GrabEvent();
 
-    private XRBaseInteractor interactor;
+    protected XRBaseInteractor interactor;
     private Coroutine grabCalculationRoutine;
+
 
     void StartDrag()
     {
@@ -49,13 +51,14 @@ public class DragInteractable : XRBaseInteractable
     {
         Vector3 AB = b - a;
         Vector3 AV = value - a;
-        return Vector3.Dot(AV, AB) / Vector3.Dot(AB, AB);
+        return Mathf.Clamp01(Vector3.Dot(AV, AB) / Vector3.Dot(AB, AB));
     }
-    IEnumerator CalculateDrag()
+    protected virtual IEnumerator CalculateDrag()
     {
 
         while(interactor != null)
         {
+            Debug.Log("Calculating Drag");
             //get line
             Vector3 slideLine = startPosition.localPosition - endPosition.localPosition;
 
@@ -63,10 +66,12 @@ public class DragInteractable : XRBaseInteractable
             Vector3 interactorLocal = startPosition.parent.InverseTransformPoint(interactor.gameObject.transform.position);
 
             //project
-            Vector3 projectedOnLine = Vector3.Project(interactorLocal, slideLine);
+            Vector3 projectedOnLine = Vector3.Project(interactorLocal, slideLine.normalized);
 
             //Vector3 point = 
             dragAmount = InverseLerp(startPosition.localPosition, endPosition.localPosition, projectedOnLine);
+
+            onDragUpdate?.Invoke(dragAmount);
             //fire event
             yield return null;
         }
@@ -75,18 +80,19 @@ public class DragInteractable : XRBaseInteractable
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         Debug.Log("Slider interactable select enter");
-        renderer.material.SetColor("_Color", Color.red);
+        meshRenderer.material.SetColor("_Color", Color.red);
+        this.interactor = args.interactor;
         StartDrag();
 
 
-        this.interactor = args.interactor;
+
         base.OnSelectEntered(args);
     }
 
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         Debug.Log("Slider interactable select exit");
-        renderer.material.SetColor("_Color", Color.grey);
+        meshRenderer.material.SetColor("_Color", Color.grey);
         EndDrag();
         this.interactor = null;
         base.OnSelectExited(args);

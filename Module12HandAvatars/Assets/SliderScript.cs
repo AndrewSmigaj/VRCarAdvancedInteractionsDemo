@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class SliderScript : MonoBehaviour
 {
-    public Transform startPosition;
-    public Transform endPosition;
+    public Transform startPosition = null;
+    public Transform endPosition = null;
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +24,22 @@ public class SliderScript : MonoBehaviour
     public void TestSliderEvents()
     {
         Debug.Log("Event fired and recieved by slider");
+    }
+
+    public void OnSlideStart()
+    {
+
+    }
+
+    public void OnSlideEnd()
+    {
+
+    }
+
+    public void OnSlideUpdate(float dragPercent)
+    {
+        Debug.Log("Entered Slider Change: " + dragPercent);
+        this.gameObject.transform.position = Vector3.Lerp(startPosition.position, endPosition.position, dragPercent);
     }
 
 }
